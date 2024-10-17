@@ -1,0 +1,2 @@
+1- Divide and Conquer 
+-- nested Child(parent has child and may be this child is a parent itself) => think of it as an OBJECT
