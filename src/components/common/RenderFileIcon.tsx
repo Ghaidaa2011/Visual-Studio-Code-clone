@@ -1,6 +1,6 @@
-import { extentionIconPaths } from "../constants";
+import { extentionIconPaths } from "../../constants";
 import IconImg from "./IconImg";
-import FileIcon from "./SVG/File";
+import FileIcon from "../SVG/File";
 
 interface IProps {
   fileName: string;
