@@ -4,6 +4,7 @@ import ResizablePanel from "./components/ResizablePanal/ResizablePanal";
 import Preview from "./components/rightPanel/Preview";
 import { useAppSelector } from "./app/hooks";
 import WelcomeTab from "./components/rightPanel/WelcomeTab";
+import SidePanel from "./components/leftPanel/SidePanel";
 const App = () => {
   const { openedFiles } = useAppSelector((state) => state.fileTree);
 
@@ -11,6 +12,7 @@ const App = () => {
     <div>
       <div className="flex h-screen ">
         <ResizablePanel
+          sidePanel={<SidePanel />}
           showLeftPanel
           leftPanel={
             <div className="w-64 p-2">

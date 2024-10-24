@@ -16,9 +16,17 @@ export const FileTree: IFile = {
           name: ".vite",
           isFolder: true,
           children: [
-            { id: uuid(), name: "react.tsx", isFolder: false },
-            { id: uuid(), name: "react.jsx", isFolder: false },
-            { id: uuid(), name: "package.json", isFolder: false },
+            {
+              id: uuid(),
+              name: "react.tsx",
+              isFolder: false,
+              content: `const react = () => {
+  return (
+    <div>react</div>
+  )
+}
+export default react`,
+            },
           ],
         },
       ],
@@ -33,8 +41,23 @@ export const FileTree: IFile = {
           name: "components",
           isFolder: true,
           children: [
-            { id: uuid(), isFolder: false, name: "Button.tsx" },
-            { id: uuid(), isFolder: false, name: "dummy.hhh" },
+            {
+              id: uuid(),
+              isFolder: false,
+              name: "Button.tsx",
+              content: `const Button = () => {
+  return (
+    <div>Button</div>
+  )
+}
+export default Button`,
+            },
+            {
+              id: uuid(),
+              isFolder: false,
+              name: "dummy.hhh",
+              content: `it is dummy data`,
+            },
           ],
         },
       ],
@@ -62,7 +85,32 @@ export const FileTree: IFile = {
       id: uuid(),
       name: "constants",
       isFolder: true,
-      children: [{ id: uuid(), name: "index.ts", isFolder: false }],
+      children: [
+        {
+          id: uuid(),
+          name: "index.ts",
+          isFolder: false,
+          content: `export const extentionIconPaths: Record<string, string> = {
+  // Files
+  js: "/icons/javascript",
+  ts: "/icons/typescript",
+  tsx: "/icons/react_ts",
+  jsx: "/icons/react",
+  html: "/icons/html",
+  svg: "/icons/svg",
+  gitignore: "/icons/git",
+  json: "/icons/nodejs",
+
+  //Folders
+  node_modules: "/icons/folder-node",
+  src: "/icons/folder-src",
+  public: "/icons/folder-public",
+  components: "/icons/folder-components",
+  images: "/icons/folder-images",
+  constants: "/icons/folder-constant",
+};`,
+        },
+      ],
     },
     {
       id: uuid(),
@@ -70,7 +118,13 @@ export const FileTree: IFile = {
       isFolder: true,
       children: [
         { id: uuid(), name: "images", isFolder: true },
-        { id: uuid(), name: "vscode.svg", isFolder: false },
+        {
+          id: uuid(),
+          name: "vscode.svg",
+          isFolder: false,
+          content: `<svg xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" `,
+        },
       ],
     },
     {
