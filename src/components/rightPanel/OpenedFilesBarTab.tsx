@@ -1,6 +1,7 @@
 import {
   setClickedFileContentAction,
   setOpenedFilesAction,
+  setTabIdToRemoveAction,
 } from "../../app/features/tree/fileTreeSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { IFile } from "../../interfaces";
@@ -57,6 +58,10 @@ const OpendedFilesBarTab = ({ file }: IProps) => {
         file.id === activeTabId ? "border-[#cf6ccf]" : "border-transparent"
       }`}
       onClick={onClick}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        dispatch(setTabIdToRemoveAction(file.id));
+      }}
     >
       <RenderFileIcon fileName={file.name} />
       <span className="cursor-pointer duration-300 flex justify-center items-center w-fit mx-2 p-1 rounded-md">
@@ -66,6 +71,10 @@ const OpendedFilesBarTab = ({ file }: IProps) => {
         onClick={(e) => {
           e.stopPropagation();
           onRemove(file.id);
+        }}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          dispatch(setTabIdToRemoveAction(file.id));
         }}
         className="cursor-pointer hover:bg-[#64646473] duration-300 flex justify-center items-center w-fit mr-2 p-1 rounded-md"
       >
