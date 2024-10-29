@@ -1,18 +1,15 @@
 import { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-  setClickedFileContentAction,
-  setOpenedFilesAction,
-} from "../../app/features/tree/fileTreeSlice";
+import { setOpenedFilesAction } from "../../app/features/tree/fileTreeSlice";
+import useOnClose from "../../hooks/useOnCloseOpenedTab";
 
 interface IProps {
   setShowMenu: (value: boolean) => void;
   Positions: { x: number; y: number };
 }
 const ContextMenu = ({ Positions: { x, y }, setShowMenu }: IProps) => {
-  const { openedFiles, tabIdToRemove } = useAppSelector(
-    (state) => state.fileTree
-  );
+  const { closeTab } = useOnClose();
+  const { tabIdToRemove } = useAppSelector((state) => state.fileTree);
   const dispatch = useAppDispatch();
   const menuRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -27,31 +24,7 @@ const ContextMenu = ({ Positions: { x, y }, setShowMenu }: IProps) => {
     };
   }, [setShowMenu]);
   //Handlers
-  const onClose = (tabIdToRemove: string | null) => {
-    const filtered = openedFiles.filter((file) => file.id !== tabIdToRemove);
-    const lastTab = filtered[filtered.length - 1];
-    if (!lastTab) {
-      dispatch(setOpenedFilesAction([]));
-      dispatch(
-        setClickedFileContentAction({
-          activeTabId: null,
-          fileContent: "",
-          fileName: "",
-        })
-      );
-      return;
-    }
-    const { id, content, name } = lastTab;
-    dispatch(setOpenedFilesAction(filtered));
-    dispatch(
-      setClickedFileContentAction({
-        activeTabId: id,
-        fileContent: content,
-        fileName: name,
-      })
-    );
-    setShowMenu(false);
-  };
+
   const onCloseAll = () => {
     dispatch(setOpenedFilesAction([]));
     setShowMenu(false);
@@ -72,7 +45,10 @@ const ContextMenu = ({ Positions: { x, y }, setShowMenu }: IProps) => {
         <li
           className="text-gray-400 block px-4 py-2 text-sm cursor-pointer hover:bg-gray-700 duration-300 rounded-sm"
           role="menuitem"
-          onClick={() => onClose(tabIdToRemove)}
+          onClick={() => {
+            closeTab(tabIdToRemove);
+            setShowMenu(false);
+          }}
         >
           Close
         </li>

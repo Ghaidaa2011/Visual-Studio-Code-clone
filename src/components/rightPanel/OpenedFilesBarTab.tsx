@@ -1,9 +1,9 @@
 import {
   setClickedFileContentAction,
-  setOpenedFilesAction,
   setTabIdToRemoveAction,
 } from "../../app/features/tree/fileTreeSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import useOnClose from "../../hooks/useOnCloseOpenedTab";
 import { IFile } from "../../interfaces";
 import RenderFileIcon from "../common/RenderFileIcon";
 import CloseIcon from "../SVG/CloseIcon";
@@ -12,9 +12,9 @@ interface IProps {
   file: IFile;
 }
 const OpendedFilesBarTab = ({ file }: IProps) => {
+  const { closeTab } = useOnClose();
   const dispatch = useAppDispatch();
   const {
-    openedFiles,
     clickedFiles: { activeTabId },
   } = useAppSelector((state) => state.fileTree);
   //Handlers
@@ -28,30 +28,7 @@ const OpendedFilesBarTab = ({ file }: IProps) => {
       })
     );
   };
-  const onRemove = (selectedId: string) => {
-    const filtered = openedFiles.filter((file) => file.id !== selectedId);
-    const lastTab = filtered[filtered.length - 1];
-    if (!lastTab) {
-      dispatch(setOpenedFilesAction([]));
-      dispatch(
-        setClickedFileContentAction({
-          activeTabId: null,
-          fileContent: "",
-          fileName: "",
-        })
-      );
-      return;
-    }
-    const { id, content, name } = lastTab;
-    dispatch(setOpenedFilesAction(filtered));
-    dispatch(
-      setClickedFileContentAction({
-        activeTabId: id,
-        fileContent: content,
-        fileName: name,
-      })
-    );
-  };
+
   return (
     <div
       className={`max-w-screen-md flex items-center p-2 border-t-2 ${
@@ -70,7 +47,7 @@ const OpendedFilesBarTab = ({ file }: IProps) => {
       <span
         onClick={(e) => {
           e.stopPropagation();
-          onRemove(file.id);
+          closeTab(file.id);
         }}
         onContextMenu={(e) => {
           e.preventDefault();
